@@ -1,0 +1,14 @@
+Zay shop requirements
+
+1.Authentications (optional for viewing the products only)
+2.DONE view for products (listView)
+3.DONE view for details for each product (Detail view)
+4.DONE Carts (advanced feature)
+5.DONE CRUID for the products for admin user only
+6.About 
+7.DONE updating the quantity of the products in the cart (Problem in cart feature )
+8.login view , logout view , registration view , for users if he wants to buy
+9. Buying products [Authenticated users only] (Cash on deleivery)
+10.Adding products [Admin users only]
+11.DONE Customize a user creation form for Authentications
+12. 

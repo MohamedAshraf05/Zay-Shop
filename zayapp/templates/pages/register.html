@@ -1,0 +1,189 @@
+{% extends 'pages/base.html' %}
+
+
+{% block content %}
+
+    <style>
+        #container{
+          display: flex;
+          justify-content: center;
+          text-align: center;
+          margin-top: 100px;
+          margin-bottom: 100px;
+          margin-left: 154px;
+        }
+        .singup {
+          color: white;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          display: block;
+          font-weight: bold;
+          font-size: x-large;
+          margin-top: 1.5em;
+        }
+        
+        .card {
+          align-items: center;
+          min-height: 350px;
+          width: 390px;
+          flex-direction: column;
+          gap: 35px;
+          border-radius: 15px;
+          background: inherit;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 15px 25px rgba(0,0,0,.6);
+          border-radius: 8px;
+        }
+        a{
+          text-decoration: none;
+          color: white;
+        }
+        a:hover{
+          text-decoration:underline;
+          color: rgb(77, 179, 162);
+          transition:.4s;
+        }
+        i{
+          color: white;
+        }
+        .inputBox,
+        .inputBox1 {
+          position: relative;
+          width: 250px;
+        }
+        
+        .inputBox input,
+        .inputBox1 input {
+          width: 100%;
+          padding: 10px;
+          outline: none;
+          border: none;
+          color: white;
+          font-size: 1em;
+          background: transparent;
+          border-left: 2px solid white;
+          border-bottom: 2px solid white;
+          transition: 0.1s;
+          border-bottom-left-radius: 8px;
+        }
+        
+        .inputBox span,
+        .inputBox1 span {
+          margin-top: 5px;
+          position: absolute;
+          left: 0;
+          transform: translateY(-4px);
+          margin-left: 10px;
+          padding: 10px;
+          pointer-events: none;
+          font-size: 12px;
+          color: white;
+          text-transform: uppercase;
+          transition: 0.5s;
+          letter-spacing: 3px;
+          border-radius: 8px;
+        }
+        
+        .inputBox input:valid~span,
+        .inputBox input:focus~span {
+          transform: translateX(10px) translateY(-15px);
+          font-size: 0.5em;
+          padding: 5px 10px;
+          background:white;
+          letter-spacing: 0.2em;
+          color: black;
+          border: 2px white;
+        }
+        
+        .inputBox1 input:valid~span,
+        .inputBox1 input:focus~span {
+          transform: translateX(150px) translateY(-15px);
+          font-size: 0.8em;
+          padding: 5px 10px;
+          background: inherit;
+          letter-spacing: 0.2em;
+          color: white;
+          border: 2px white;
+        }
+        
+        .inputBox input:valid,
+        .inputBox input:focus,
+        .inputBox1 input:valid,
+        .inputBox1 input:focus {
+          border: 2px solid white;
+          border-radius: 8px;
+        }
+        
+        .enter{
+          height: 45px;
+          width: 100px;
+          border-radius: 5px;
+          border: 2px solid black;
+          cursor: pointer;
+          color: black;
+          transition: 0.5s;
+          text-transform: uppercase;
+          font-size: 10px;
+          letter-spacing: 2px;
+          margin-bottom: 3em;
+
+        }
+        .login{
+          position: absolute;
+          bottom: 50px;
+        }
+        
+        .enter:hover {
+          background-color: black;
+          color: white;
+        }
+        
+.zay{
+    font-size: 100px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    position: absolute;
+    top: 38%;
+    left: 20%;
+    font-weight: lighter;
+    transform: translate(-50% , -50%%);
+}
+.shop{
+    font-size: 100px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    position: absolute;
+    top: 38%;
+    left: 68%;
+    font-weight: lighter;
+    transform: translate(-50% , -50%%);
+}       
+      </style>
+      <h1 class="zay text-success">Zay</h1>
+        <h1 class="shop text-success">Shop</h1>
+
+        <form action="{% url 'zay:register' %}" method="post">
+          {% csrf_token %}
+          <div class="container d-flex" id="container">
+            <div class="card bg-dark justify-content-center">
+            <a class="singup">Sign Up</a>
+            
+            <div class="inputBox">
+              {{form.username}}
+              <span>Username</span>
+            </div>
+            
+            <div class="inputBox">
+              {{form.password1}}
+              <span>Password</span>
+            </div>
+            <div class="inputBox">
+              {{form.password2}}
+              <span>Confirm Password</span>
+            </div>
+            <input type="submit" value="Signup" class="enter">
+            <div class="col-12 Login">
+              <i>Already have an account?! <a href="{% url 'zay:login' %}">Login</a> </i>
+            </div>
+            </div>
+          </div>
+        </form>
+{% endblock content %}

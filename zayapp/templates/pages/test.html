@@ -1,0 +1,14 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <h1>Cart View</h1>
+
+    {% if carts %}
+        <h5>Hello world</h5>
+    {% else %}
+        <h5>Cart is empty</h5>
+    {% endif %}
+{% endblock content %}

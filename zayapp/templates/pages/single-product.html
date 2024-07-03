@@ -1,0 +1,415 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+{% block content %}
+<style>
+    .product-overlay ul {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    .product-overlay:hover ul {
+        opacity: 1;
+    }
+    .product-wap {
+        max-height: fit-content;
+        max-width: fit-content; /* Adjust the width as needed */
+    }
+    .product-wap img {
+        width: max-content;
+        height: fit-content; /* Adjust the height as needed */
+        object-fit:fill; /* Ensures the image covers the area without distortion */
+        padding: 0;
+    }
+    #related{
+        background-color: white; !important
+    }.reduced-card {
+        width: 50%;
+        margin: auto; /* Centers the card horizontally */
+    }
+    
+    </style>    
+    
+    <!-- Open Content -->
+    <section class="bg-light">
+        <div class="container pb-5">
+            <div class="row">
+                <div class="col-lg-5 mt-5">
+                    <div class="card mb-3">
+                        <img class="card-img img-fluid" src="{{product.image.url}}" alt="Card image cap" id="product-detail">
+                    </div>
+                    <div class="row">
+                        <!--Start Controls-->
+                        <div class="col-1 align-self-center">
+                            <a href="#multi-item-example" role="button" data-bs-slide="prev">
+                                <i class="text-dark fas fa-chevron-left"></i>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </div>
+                        <!--End Controls-->
+                        <!--Start Carousel Wrapper-->
+                        <div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
+                            <!--Start Slides-->
+                            <div class="carousel-inner product-links-wap" role="listbox">
+
+                                <!--First slide-->
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="{{product.image.url}}" alt="Product Image 1">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="{{product.image.url}}" alt="Product Image 2">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="{{product.image.url}}" alt="Product Image 3">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/.First slide-->
+
+                                <!--Second slide-->
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="assets/img/product_single_04.jpg" alt="Product Image 4">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="assets/img/product_single_05.jpg" alt="Product Image 5">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="assets/img/product_single_06.jpg" alt="Product Image 6">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/.Second slide-->
+
+                                <!--Third slide-->
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="assets/img/product_single_07.jpg" alt="Product Image 7">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="assets/img/product_single_08.jpg" alt="Product Image 8">
+                                            </a>
+                                        </div>
+                                        <div class="col-4">
+                                            <a href="#">
+                                                <img class="card-img img-fluid" src="assets/img/product_single_09.jpg" alt="Product Image 9">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/.Third slide-->
+                            </div>
+                            <!--End Slides-->
+                        </div>
+                        <!--End Carousel Wrapper-->
+                        <!--Start Controls-->
+                        <div class="col-1 align-self-center">
+                            <a href="#multi-item-example" role="button" data-bs-slide="next">
+                                <i class="text-dark fas fa-chevron-right"></i>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <!--End Controls-->
+                    </div>
+                </div>
+                <!-- col end -->
+                <div class="col-lg-7 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="h2"> {{product.name}} </h1>
+                            <p class="h3 py-2"> ${{product.price}} </p>
+                            <p class="py-2">
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                            </p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Brand:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>Easy Wear</strong></p>
+                                </li>
+                            </ul>
+
+                            <h6>Description:</h6>
+                            <p> {{product.description}} </p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Avaliable Color :</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>White / Black</strong></p>
+                                </li>
+                            </ul>
+
+                            <h6>Specification:</h6>
+                            <ul class="list-unstyled pb-3">
+                                <li>Lorem ipsum dolor sit</li>
+                                <li>Amet, consectetur</li>
+                                <li>Adipiscing elit,set</li>
+                                <li>Duis aute irure</li>
+                                <li>Ut enim ad minim</li>
+                                <li>Dolore magna aliqua</li>
+                                <li>Excepteur sint</li>
+                            </ul>
+
+                            <form action="{% url 'zay:single' product.id%}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="product-title" value="{{ product.name }}">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <ul class="list-inline pb-3">
+                                            <li class="list-inline-item">Size :
+                                                <input type="hidden" name="product-size" id="product-size" value="S">
+                                            </li>
+                                            <li class="list-inline-item"><span class="btn btn-success btn-size" data-size="S">S</span></li>
+                                            <li class="list-inline-item"><span class="btn btn-success btn-size" data-size="M">M</span></li>
+                                            <li class="list-inline-item"><span class="btn btn-success btn-size" data-size="L">L</span></li>
+                                            <li class="list-inline-item"><span class="btn btn-success btn-size" data-size="XL">XL</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-auto">
+                                        <ul class="list-inline pb-3">
+                                            <li class="list-inline-item text-right">
+                                                Quantity
+                                            </li>
+                                            <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
+                                            <li class="list-inline-item"><span class="badge bg-secondary" id="var-value"> {{product.quantity}} </span></li>
+                                            <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" name="product-quantity" id="product-quantity" value="1">
+                                </div>
+                                <div class="row pb-3">
+                                    <div class="col d-grid">
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                    </div>
+                                    <div class="col d-grid">
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- Start Article -->
+    <section class="py-5" id="related">
+        <div class="container">
+            <div class="row text-left p-2 pb-3">
+                <h4>Related Products</h4>
+            </div>
+            <!--Start Carousel Wrapper-->
+            <div id="carousel-related-product" class="row">
+                <!--First related product-->
+                <div class="p-0 pb-0 col-4">
+                    <div class="product-wap card rounded-0 reduced-card" id="related-cards">
+                        <div class="card rounded-0" id="card-img">
+                            <img class="card-img rounded-0 img-fluid" src="{% static 'images/shop_09.jpg' %}">
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" id="card-body">
+                            <a href="shop-single.html" class="h3 text-decoration-none">Red Clothing</a>
+                            <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                <li>M/L/X/XL</li>
+                                <li class="pt-2">
+                                    <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                <li>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-muted fa fa-star"></i>
+                                </li>
+                            </ul>
+                            <p class="text-center mb-0">${{product.price}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!--/.first related product-->
+
+                <!-- Second related product -->
+                <div class="p-0 pb-0 col-4">
+                    <div class="product-wap card rounded-0 reduced-card" id="related-cards">
+                        <div class="card rounded-0" id="card-img">
+                            <img class="card-img rounded-0 img-fluid" src="{% static 'images/shop_08.jpg' %}">
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" id="card-body">
+                            <a href="shop-single.html" class="h3 text-decoration-none">Red Clothing</a>
+                            <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                <li>M/L/X/XL</li>
+                                <li class="pt-2">
+                                    <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                <li>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-muted fa fa-star"></i>
+                                </li>
+                            </ul>
+                            <p class="text-center mb-0">${{product.price}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!--/.Second related product-->
+                
+                <!--Third related product-->
+                <div class="p-0 pb-0 col-4">
+                    <div class="product-wap card rounded-0 reduced-card" id="related-cards">
+                        <div class="card rounded-0" id="card-img">
+                            <img class="card-img rounded-0 img-fluid" src="{% static 'images/shop_11.jpg' %}">
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="shop-single.html"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" id="card-body">
+                            <a href="shop-single.html" class="h3 text-decoration-none">Red Clothing</a>
+                            <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                                <li>M/L/X/XL</li>
+                                <li class="pt-2">
+                                    <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                                    <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                                </li>
+                            </ul>
+                            <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                <li>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-warning fa fa-star"></i>
+                                    <i class="text-muted fa fa-star"></i>
+                                </li>
+                            </ul>
+                            <p class="text-center mb-0">${{product.price}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!--/Third related product-->
+    </section>
+    <!-- Close Content -->
+    
+    <!-- Start Slider Script -->
+    <script>
+        // Ensure the DOM is fully loaded before running the script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to increase quantity
+            function increaseQuantity() {
+                let quantityInput = document.getElementById('product-quantity');
+                let quantityDisplay = document.getElementById('var-value');
+                if (quantityInput && quantityDisplay) {
+                    var currentQuantity = parseInt(quantityInput.value);
+                    currentQuantity += 1;
+                    quantityInput.value = currentQuantity;
+                    quantityDisplay.textContent = currentQuantity;
+                    console.log(currentQuantity)
+                }
+                else{
+                    console.log("Quantity input or display not found");
+                }
+            }
+
+            // Function to decrease quantity
+            function decreaseQuantity() {
+                var quantityInput = document.getElementById('product-quantity');
+                var quantityDisplay = document.getElementById('var-value');
+                if (quantityInput && quantityDisplay) {
+                    var currentQuantity = parseInt(quantityInput.value);
+                    if (currentQuantity > 1) {
+                        currentQuantity -= 1;
+                    }
+                    quantityInput.value = currentQuantity;
+                    quantityDisplay.textContent = currentQuantity;
+                }
+            }
+
+            // Add event listeners to the buttons
+            var plusButton = document.getElementById('btn-plus');
+            var minusButton = document.getElementById('btn-minus');
+
+            if (plusButton) {
+                plusButton.addEventListener('click', increaseQuantity);
+            }
+
+            if (minusButton) {
+                minusButton.addEventListener('click', decreaseQuantity);
+            }
+        });
+        // Ensure the DOM is fully loaded before running the script
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to update the size
+        function updateSize(size) {
+            let sizeInput = document.getElementById('product-size');
+            sizeInput.value = size;
+            console.log(`Selected size: ${size}`);  // Debugging print
+        }
+
+        // Add event listeners to the size buttons
+        let sizeButtons = document.querySelectorAll('.btn-size');
+        sizeButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                let selectedSize = button.getAttribute('data-size');
+                updateSize(selectedSize);
+            });
+        });
+    });
+    </script>
+    <!-- End Slider Script -->
+{% endblock content %}

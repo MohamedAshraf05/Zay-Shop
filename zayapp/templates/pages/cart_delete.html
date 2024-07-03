@@ -1,0 +1,17 @@
+{% extends 'pages/base.html' %}
+
+
+<!-- templates/cartitem_confirm_delete.html -->
+{% block content %}
+<div class="container py-5">
+
+    <h1>Delete Cart Item</h1>
+    <p>Are you sure you want to delete {{ object.product.name }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Confirm Delete" class="btn btn-danger">
+</form>
+<br>
+<a href="{% url 'zay:cart' %}" class="btn btn-dark mb-5">No, go back</a>
+</div>
+{% endblock content %}
