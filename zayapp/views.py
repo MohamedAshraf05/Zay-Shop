@@ -6,9 +6,10 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView , LogoutView
 from django.contrib.auth import login  , logout , authenticate
 from django.views.generic import ListView , DetailView , DeleteView , UpdateView , CreateView , FormView
-from .models import Products , Category , Season , CartItem , Cart , City 
+from .models import Products , Category , Season , CartItem , Cart , City , UserProfile , Order
 from django.contrib.auth.forms import UserCreationForm
- 
+from .forms import UserProfileForm , ContactForm
+from django.contrib import messages
 # Create your views here.
 
 class HomeView(ListView):
@@ -16,6 +17,9 @@ class HomeView(ListView):
     template_name = 'pages/home.html'
     context_object_name = 'product'
 
+class AboutView(ListView):
+    queryset = Products.objects.all()
+    template_name = 'pages/about.html'
 
 class ProductView(ListView):
     queryset = Products.objects.all()
@@ -28,31 +32,41 @@ class SingleProduct(DetailView):
     template_name = 'pages/single-product.html'
     
     def post(self, request, *args, **kwargs):
-        product = get_object_or_404(Products, pk=kwargs['pk'])
-        cart,created = Cart.objects.get_or_create(user=request.user)
+        if request.POST.get('submit') == 'addtocart':
 
-        size = request.POST.get('product-size')
-        quantity = int(request.POST.get('product-quantity', 1))
+            product = get_object_or_404(Products, pk=kwargs['pk'])
+            cart,created = Cart.objects.get_or_create(user=request.user)
 
-        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, size=size)
-        if not created:
-            cart_item.quantity += quantity
-        else:
-            cart_item.quantity = quantity
-        cart_item.save()
+            size = request.POST.get('product-size')
+            quantity = int(request.POST.get('product-quantity', 1))
 
-        # Update the total items in the cart
-        cart.update_total_items()
+            cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product, size=size)
+            if not created:
+                cart_item.quantity += quantity
+            else:
+                cart_item.quantity = quantity
+            cart_item.save()
 
-        if request.POST.get('submit') == 'buy':
-            # Handle the buying process
-            return redirect('zay:home')
-        else:
-            # Add to cart and redirect to cart detail
-            print(f"The product added , with quantity {cart_item.quantity}") # Debugging print
+            # Update the total items in the cart
+            cart.update_total_items()
+            
+            messages.success(request , f"Added {quantity} of {product.name} to your cart ")
             return redirect('zay:shop')
-    
-
+        
+        elif request.POST.get('submit') == 'buy':
+            
+            product = get_object_or_404(Products, pk=kwargs['pk'])
+            
+            size = request.POST.get('product-size')
+            
+            quantity = int(request.POST.get('product-quantity' , 1))
+            user_profile = get_object_or_404(UserProfile , user=request.user)
+            order,created = Order.objects.get_or_create( user=user_profile ,product=product , size=size , quantity=quantity)
+            
+            order.save()
+            
+            return redirect('zay:order')
+        return super().get(request,*args , **kwargs)
 
 class CartDetailView(DetailView):
     model = Cart
@@ -61,16 +75,21 @@ class CartDetailView(DetailView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(Cart, user=self.request.user)
+
+
+class orderView( LoginRequiredMixin ,DetailView):
+    model = Order
+    fields = "__all__"
+    template_name = 'pages/buy.html'
+    context_object_name = 'orders'
+
+    def get_object(self , queryset=None):
+        return get_object_or_404(Cart , user=self.request.user) 
+
+    def get(self , *args , **kwargs):
+        return super().get(*args , **kwargs)
     
-
-
-class CartItemDeleteView(DeleteView):
-    model = CartItem
-    template_name = 'pages/cart_delete.html'  # #new
-
-    def get_success_url(self):
-        return reverse_lazy('zay:cart')  # #new
-
+    
 class CartItemDeleteView(DeleteView):
     model = CartItem
     template_name = 'pages/cart_delete.html'
@@ -109,9 +128,9 @@ class CustomerLoginView(LoginView):
 class CustomerRegisterView(FormView):
     template_name = 'pages/register.html'
     form_class = UserCreationForm
-    success_url = reverse_lazy("zay:login")
+    success_url = reverse_lazy("zay:form")
     
-    def form_valid(self, form) :
+    def form_valid(self, form):
         user = form.save()
         if user is not None:
             login(self.request,user)
@@ -125,7 +144,60 @@ class CustomerRegisterView(FormView):
         print(form.errors)
         return super().form_invalid(form)
 
+class UserProfileFormView(FormView):
+    template_name = 'pages/form.html'
+    form_class = UserProfileForm
+    success_url = reverse_lazy('zay:home')
 
+    def form_valid(self, form):
+        user_profile = form.save(commit=False)
+        user_profile.user = self.request.user
+        user_profile.save()
+        return super().form_valid(form)
+    
+
+class ContactFormView(FormView):
+    template_name = 'pages/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('zay:home')
+
+    def form_valid(self , form):
+        contact = form.save(commit=False)
+        contact.user = self.request.user
+        contact.save()
+        return super().form_valid(form)
+    
+class UserProfileDetailView(LoginRequiredMixin, DetailView):
+    model = UserProfile
+    form_class = UserProfileForm
+    template_name = 'pages/profile.html'
+    context_object_name = 'profile'
+
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
+    
+    def get(self , request , *args , **kwargs):
+        if not request.user.is_authenticated:
+            messages.info(request , "You need to be registered and logged in to view your profile")
+            return redirect('zay:login')
+        return super().get(request, *args, **kwargs)
+
+class UserProfileUpdateView(LoginRequiredMixin , UpdateView):
+    model = UserProfile
+    form_class = UserProfileForm
+    template_name = 'pages/profile_update.html'
+    context_object_name = 'profile'
+    success_url = reverse_lazy('zay:profile')
+
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
+
+
+    def get(self , request ,  *args , **kwargs):
+        if not self.request.user.is_authenticated:
+            messages.info(request , "You need to be registered and logged in to update your profile")
+            return redirect('zay:login')
+        return super().get(request,*args , **kwargs)
 def Logout(request):
     logout(request)
     return redirect('zay:login')

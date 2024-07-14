@@ -1,0 +1,59 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2> {{profile.user.username}}'s Profile</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            {% if profile.image %}
+                                <img src="{{ profile.image.url }}" class="img-fluid rounded-circle mb-3" alt="Profile Picture">
+                            {% else %}
+                                <h1>no PHoto</h1>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Name</th>
+                                        <td> {{profile.user.username}} </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Email</th>
+                                        <td>{{ profile.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Phone Number</th>
+                                        <td>{{ profile.phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Address</th>
+                                        <td>{{ profile.address }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">City</th>
+                                        <td>{{ profile.city.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Nationality</th>
+                                        <td>{{ profile.nationality }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="{% url 'zay:update' %}" class="btn btn-dark">Edit profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

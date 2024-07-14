@@ -1,0 +1,12 @@
+{% extends 'pages/crmbase.html' %}
+
+{% block content %}
+    <h1> Confirm Deletion </h1>
+
+    <p>Are you sure you want to delete {{contacts.user.username}} record? </p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Confirm" class="btn btn-danger" id="">
+        <a href="{% url 'crm:detail' contacts.id %}" class="btn btn-dark"> Cancel </a>
+    </form>
+{% endblock content %}

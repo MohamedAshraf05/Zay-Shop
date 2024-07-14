@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category , Products , Season , Cart ,CartItem , City , UserProfile
+from .models import Category , Products , Season , Cart ,CartItem , City , UserProfile , nations , Contact , Order
 
 # Register your models here.
 
@@ -38,3 +38,16 @@ class CityAdmin(admin.ModelAdmin):
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ['user' , 'city' , 'address' , 'phone' ,'id']
     ordering = ['id']
+
+@admin.register(nations)
+class nationsAdmin(admin.ModelAdmin):
+    list_display = ['name' , 'code' , 'id']
+    ordering = ['id']
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['user' , 'subject' ,  'id']
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['user' , 'product' , 'id' , 'created_at']

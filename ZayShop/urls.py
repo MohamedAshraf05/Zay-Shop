@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('' , include("zayapp.urls"))
+    path('zay/' , include("zayapp.urls")),
+    path('crm/' , include("crm.urls")),
 ]
 
 if settings.DEBUG:

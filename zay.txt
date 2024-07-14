@@ -1,14 +1,22 @@
-Zay shop requirements
+Zay Shop requirements
 
-1.Authentications (optional for viewing the products only)
+1.DONE Authentications (optional for viewing the products only , the user could view the products without be authenticated)
 2.DONE view for products (listView)
-3.DONE view for details for each product (Detail view)
+3.DONE view for details for each product (Detail view) , Deleting views
 4.DONE Carts (advanced feature)
 5.DONE CRUID for the products for admin user only
-6.About 
-7.DONE updating the quantity of the products in the cart (Problem in cart feature )
-8.login view , logout view , registration view , for users if he wants to buy
-9. Buying products [Authenticated users only] (Cash on deleivery)
+6.DONE About 
+7.DONE updating the quantity of the products in the cart
+8.DONE login view , logout view , registration view , for users if he wants to buy
+9.Buying products [Authenticated users only] (Cash on deleivery)
 10.Adding products [Admin users only]
 11.DONE Customize a user creation form for Authentications
-12. 
+12.DONE Making form for user to add his phone number , address ..etc 
+13.DONE Profile for each user
+14.DONE Contact Us [Make the user to add his feedback or his complaint] form including (phone number , email , subject , message)
+15.DONE CRM app for admin user to see the complaints of the clients in the shop 
+16.DONE Create an admin user beside the admin account that made the website to administrate Zay Administration
+17. Making a message for the user after adding products in the carts if the product added successfuly
+18. DONEUpdating the profile photo of the user
+19.DONE BUG : the user couldn't update his information [UserProfile]
+20. testing fork

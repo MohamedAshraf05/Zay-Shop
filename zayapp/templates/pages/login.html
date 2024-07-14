@@ -210,6 +210,13 @@
         <div class="row justify-content-center">
         <div class="col-6 mt-5">
             <div class="login-box bg-dark">
+              {% if messages %}
+                <div class="alert alert-info" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+              {% endif %}
                 <p class="text-light" id="login">Login</p>
                 <form action="{% url 'zay:login' %}" method="post">
                     {% csrf_token %}

@@ -1,48 +1,5 @@
 <!-- templates/cart_detail.html -->
 {% extends 'pages/base.html' %}
-{% comment %} 
-{% block content %}
-<div class="containter p-5">
-    <h1>Your Cart</h1>
-    <p>Total Items: {{ cart.total_items }}</p>
-    <table class="table table-border">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Size</th>
-                <th>Price</th>
-                <th>Total price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in cart.items.all %}
-            <tr>
-                <td> <a href="{% url 'zay:single' item.id %}" class="text-decoration-none text-dark">{{ item.product.name }} </a>  </td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.size }}</td>
-                <td> {{item.product.price}} </td>
-                <td> {{item.total_price}} </td>
-                <td>
-                    <a href="#" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <i> <b>Total Price: ${{ cart.total_price }} </b></i><br> <br>
-    <a href="{% url 'zay:shop' %}" class="btn btn-dark mb-4"> <- Continue Shopping</a>
-</div>
-{% endblock content %}
-
-
- {% endcomment %}
-
-
-
-
-
  {% block content %}
  <style>
     body{

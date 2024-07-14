@@ -1,0 +1,44 @@
+{% extends 'pages/crmbase.html' %}
+
+
+{% block content %}
+<h1 class="mx-4">Customer Detail</h1>
+<div class="card m-5" style="width: fit-content;">
+    <div class="card-header">
+      {{customersDetails.user.username}}
+    </div>
+    <div class="card-body">
+      
+      <p class="card-text">
+        <strong style="display: none;" id="id"> {{customersDetails.id}}</strong>
+        <strong>Username : </strong>{{customersDetails.user.username}}  <br>  
+        <strong> Email : </strong> {{customersDetails.email}} <br>
+        <strong> Phone : </strong> {{customersDetails.phone}} <br>
+        <strong> Adress : </strong> {{customersDetails.subject}} <br>
+        <strong> message :  </strong> {{customersDetails.message}} <br>
+      </p>
+      <a href="#" class="btn btn-dark">update</a>
+        {% comment %} <div>
+            <button onclick="confirmDelete({{ customersDetails.id }})" class="btn btn-danger">Done</button>
+        </div> {% endcomment %}
+
+      <a href="{% url 'crm:delete' customersDetails.id %}" class="btn btn-danger"> Delete</a>
+    {% comment %} <form id="delete-form" action="{% url 'crm:delete' %}" method="post" style="display:none;">
+        {% csrf_token %}
+    </form> {% endcomment %}
+{% comment %} 
+    <script>
+    function confirmDelete(contactId) {
+      contactId = document.getElementById('id').value;
+        if (confirm("Are you sure that you done with this contact?")) {
+            var form = document.getElementById('delete-form');
+            form.action = '/crm/detail/' + contactId + '/delete/';
+            form.submit();
+        }
+    }
+    </script> {% endcomment %}
+    </div>
+  </div>
+  <a href="{% url 'crm:contact'%}" class="btn btn-dark mx-4"> <- Contacts </a>
+
+{% endblock content %}

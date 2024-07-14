@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'zayapp.apps.ZayappConfig',
+    'crm.apps.CrmConfig',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 ROOT_URLCONF = 'ZayShop.urls'
 
 
@@ -58,6 +61,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+LOGIN_URL = 'zay:login'
 
 #Default template settings
 

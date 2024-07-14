@@ -2,6 +2,10 @@
 
 {% load static %}
 {% block content %}
+<head>
+    <title> Zay | shop-single </title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
 <style>
     .product-overlay ul {
         opacity: 0;
@@ -30,7 +34,7 @@
     </style>    
     
     <!-- Open Content -->
-    <section class="bg-light">
+     <section class="bg-light">
         <div class="container pb-5">
             <div class="row">
                 <div class="col-lg-5 mt-5">
@@ -210,7 +214,7 @@
                                         <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
                                     </div>
                                 </div>
-                            </form>
+                            </form>  
                         </div>
                     </div>
                 </div>
@@ -345,71 +349,122 @@
                 <!--/Third related product-->
     </section>
     <!-- Close Content -->
-    
-    <!-- Start Slider Script -->
     <script>
-        // Ensure the DOM is fully loaded before running the script
-        document.addEventListener('DOMContentLoaded', function() {
-            // Function to increase quantity
-            function increaseQuantity() {
-                let quantityInput = document.getElementById('product-quantity');
-                let quantityDisplay = document.getElementById('var-value');
-                if (quantityInput && quantityDisplay) {
-                    var currentQuantity = parseInt(quantityInput.value);
-                    currentQuantity += 1;
-                    quantityInput.value = currentQuantity;
-                    quantityDisplay.textContent = currentQuantity;
-                    console.log(currentQuantity)
-                }
-                else{
-                    console.log("Quantity input or display not found");
-                }
-            }
-
-            // Function to decrease quantity
-            function decreaseQuantity() {
-                var quantityInput = document.getElementById('product-quantity');
-                var quantityDisplay = document.getElementById('var-value');
-                if (quantityInput && quantityDisplay) {
-                    var currentQuantity = parseInt(quantityInput.value);
-                    if (currentQuantity > 1) {
-                        currentQuantity -= 1;
-                    }
-                    quantityInput.value = currentQuantity;
-                    quantityDisplay.textContent = currentQuantity;
-                }
-            }
-
-            // Add event listeners to the buttons
-            var plusButton = document.getElementById('btn-plus');
-            var minusButton = document.getElementById('btn-minus');
-
-            if (plusButton) {
-                plusButton.addEventListener('click', increaseQuantity);
-            }
-
-            if (minusButton) {
-                minusButton.addEventListener('click', decreaseQuantity);
-            }
+        let buyButton = document.getElementById('buy-button')
+        let addToCartButton = document.getElementById('add-to-cart-button')
+        let productForm = document.getElementById('product-form')
+{% comment %} 
+        buyButton.addEventListener('click' , () => {
+            productForm.action = "{% url 'zay:order' product.id %}"
         });
-        // Ensure the DOM is fully loaded before running the script
-    document.addEventListener('DOMContentLoaded', function() {
-        // Function to update the size
-        function updateSize(size) {
-            let sizeInput = document.getElementById('product-size');
-            sizeInput.value = size;
-            console.log(`Selected size: ${size}`);  // Debugging print
-        }
 
-        // Add event listeners to the size buttons
-        let sizeButtons = document.querySelectorAll('.btn-size');
-        sizeButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                let selectedSize = button.getAttribute('data-size');
-                updateSize(selectedSize);
-            });
-        });
-    });
+        addToCartButton.addEventListener("click" , () => {
+            productForm.action = "{% url 'zay:single' product.id %}"
+        });  {% endcomment %}
+
+        document.addEventListener('DOMContentLoaded', function() {  
+            // Function to increase quantity  
+            function increaseQuantity() {  
+                let quantityInput = document.getElementById('product-quantity');  
+                let quantityDisplay = document.getElementById('var-value');  
+                if (quantityInput && quantityDisplay) {  
+                    var currentQuantity = parseInt(quantityInput.value);  
+                    currentQuantity += 1;  
+                    quantityInput.value = currentQuantity;  
+                    quantityDisplay.textContent = currentQuantity;  
+                }  
+            }  
+    
+            // Function to decrease quantity  
+            function decreaseQuantity() {  
+                var quantityInput = document.getElementById('product-quantity');  
+                var quantityDisplay = document.getElementById('var-value');  
+                if (quantityInput && quantityDisplay) {  
+                    var currentQuantity = parseInt(quantityInput.value);  
+                    if (currentQuantity > 1) {  
+                        currentQuantity -= 1;  
+                    }  
+                    quantityInput.value = currentQuantity;  
+                    quantityDisplay.textContent = currentQuantity;  
+                }  
+            }  
+    
+            // Add event listeners to the buttons  
+            var plusButton = document.getElementById('btn-plus');  
+            var minusButton = document.getElementById('btn-minus');  
+    
+            if (plusButton) {  
+                plusButton.addEventListener('click', increaseQuantity);  
+            }  
+    
+            if (minusButton) {  
+                minusButton.addEventListener('click', decreaseQuantity);  
+            }  
+    
+            // Function to update the size  
+            function updateSize(size) {  
+                let sizeInput = document.getElementById('product-size');  
+                sizeInput.value = size;  
+            }  
+    
+            // Add event listeners to the size buttons  
+            let sizeButtons = document.querySelectorAll('.btn-size');  
+            sizeButtons.forEach(function(button) {  
+                button.addEventListener('click', function() {  
+                    let selectedSize = button.getAttribute('data-size');  
+                    updateSize(selectedSize);  
+                });  
+            });  
+    
+   /*         // Handle form submission via AJAX  
+            const addToCartButton = document.getElementById('add-to-cart-button');  
+    
+            addToCartButton.addEventListener('click', function(event) {  
+                event.preventDefault();  
+                const form = document.querySelector('form[action="{% url 'zay:single' product.id %}"]');  
+                if (!form) {  
+                    console.error('Form not found!');  
+                    return;  
+                }  
+                const formData = new FormData(form);  
+    
+                fetch(form.action, {  
+                    method: 'POST',  
+                    headers: {  
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),  
+                    },  
+                    body: formData,  
+                })  
+                .then(response => response.json())  
+                .then(data => {  
+                    if (data.success) {  
+                        Swal.fire({  
+                            icon: 'success',  
+                            title: 'Added to cart successfully!',  
+                            showConfirmButton: false,  
+                            timer: 3000  
+                        });  
+                    } else {  
+                        Swal.fire({  
+                            icon: 'error',  
+                            title: 'An error occurred!',  
+                            text: data.message,  
+                            showConfirmButton: true,  
+                        });  
+                    }  
+                })  
+                .catch(error => {  
+                    Swal.fire({  
+                        icon: 'error',  
+                        title: 'An error occurred!',  
+                        text: 'Please try again later.',  
+                        showConfirmButton: true,  
+                    });  
+                });  
+            });*/  
+        });  
     </script>
-    <!-- End Slider Script -->
+    
+    
+    <!-- End Script section -->
 {% endblock content %}

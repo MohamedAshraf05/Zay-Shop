@@ -1,0 +1,13 @@
+{% extends 'pages/base.html' %}
+
+
+{% block content %}
+    {% for order in orders  %}
+        <h1> {{orders.user.username}} </h1>
+        <h2> {{orders.user.address}} </h2>
+        <h2> {{orders.user.phone}} </h2>
+        <h2> {{orders.user.email}} </h2>
+        <h2> {{orders.user.city}} </h2>
+        <h2> {{orders.product}} </h2>    
+    {% endfor %}
+{% endblock content %}
