@@ -14,10 +14,11 @@
                             {% if profile.image %}
                                 <img src="{{ profile.image.url }}" class="img-fluid rounded-circle mb-3" alt="Profile Picture">
                             {% else %}
-                                <h1>no PHoto</h1>
+                                <h1>No photo</h1>
                             {% endif %}
                         </div>
                         <div class="col-md-8">
+                            {% if profile %}
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
@@ -52,8 +53,15 @@
                         <a href="{% url 'zay:update' %}" class="btn btn-dark">Edit profile</a>
                     </div>
                 </div>
+                {% else %}
+                <h1>
+                    you have no profile view 
+                </h1>
+                <a href="{% url 'zay:form' %}" class="btn btn-dark"> Create one </a>
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}

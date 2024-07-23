@@ -1,9 +1,13 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.views.generic import View
+from django.core.paginator import Paginator
+from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect 
-from django.urls import reverse_lazy
-from django.contrib.auth.views import LoginView , LogoutView
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.views import LoginView , LogoutView 
+from django.contrib.auth.models import User
 from django.contrib.auth import login  , logout , authenticate
 from django.views.generic import ListView , DetailView , DeleteView , UpdateView , CreateView , FormView
 from .models import Products , Category , Season , CartItem , Cart , City , UserProfile , Order
@@ -23,8 +27,27 @@ class AboutView(ListView):
 
 class ProductView(ListView):
     queryset = Products.objects.all()
-    context_object_name = 'products'
     template_name = 'pages/products.html'
+    context_object_name = 'products'
+    paginate_by = 6
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Products.objects.filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query) |
+                Q(price__icontains=query) 
+            )
+        return Products.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists() and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'message': 'Product not found'}, status=404)
+        paginator = Paginator(queryset, self.paginate_by)
+        page = request.GET.get('page')
+        products = paginator.get_page(page)
+        return render(request, self.template_name, {'products': products})
 
 class SingleProduct(DetailView):
     queryset = Products.objects.all()
@@ -33,9 +56,12 @@ class SingleProduct(DetailView):
     
     def post(self, request, *args, **kwargs):
         if request.POST.get('submit') == 'addtocart':
+            if not request.user.is_authenticated:
+                messages.error(request, "You need to be logged in to perform this action.")
+                return redirect(reverse("zay:login") + "?message=You need to be logged in to perform this action.")
 
             product = get_object_or_404(Products, pk=kwargs['pk'])
-            cart,created = Cart.objects.get_or_create(user=request.user)
+            cart, created = Cart.objects.get_or_create(user=request.user)
 
             size = request.POST.get('product-size')
             quantity = int(request.POST.get('product-quantity', 1))
@@ -50,46 +76,29 @@ class SingleProduct(DetailView):
             # Update the total items in the cart
             cart.update_total_items()
             
-            messages.success(request , f"Added {quantity} of {product.name} to your cart ")
-            return redirect('zay:shop')
-        
+            messages.success(request, f"{product} is added successfully with quantity {quantity} ")
+            return redirect(reverse("zay:cart") + f"?message={product} is added successfully with quantity {quantity} ")
         elif request.POST.get('submit') == 'buy':
-            
             product = get_object_or_404(Products, pk=kwargs['pk'])
-            
             size = request.POST.get('product-size')
+            quantity = int(request.POST.get('product-quantity', 1))
+            user_profile = UserProfile.objects.filter(user=request.user).first()
             
-            quantity = int(request.POST.get('product-quantity' , 1))
-            user_profile = get_object_or_404(UserProfile , user=request.user)
-            order,created = Order.objects.get_or_create( user=user_profile ,product=product , size=size , quantity=quantity)
-            
+            if not user_profile or not user_profile.city or not user_profile.phone or not user_profile.address or not user_profile.nationality:
+                messages.error(request, "Please complete your profile information before purchasing.")
+                return redirect('zay:form')
+            order, created = Order.objects.get_or_create(user=user_profile, product=product, size=size, quantity=quantity)
             order.save()
-            
-            return redirect('zay:order')
-        return super().get(request,*args , **kwargs)
-
+        return super().get(request, *args, **kwargs)
 class CartDetailView(DetailView):
     model = Cart
     template_name = 'pages/cart_detail.html'  # #new
     context_object_name = 'cart'  # #new
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Cart, user=self.request.user)
+        return get_object_or_404(Cart, user=self.request.user)        
 
 
-class orderView( LoginRequiredMixin ,DetailView):
-    model = Order
-    fields = "__all__"
-    template_name = 'pages/buy.html'
-    context_object_name = 'orders'
-
-    def get_object(self , queryset=None):
-        return get_object_or_404(Cart , user=self.request.user) 
-
-    def get(self , *args , **kwargs):
-        return super().get(*args , **kwargs)
-    
-    
 class CartItemDeleteView(DeleteView):
     model = CartItem
     template_name = 'pages/cart_delete.html'
@@ -177,9 +186,16 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
         return UserProfile.objects.get(user=self.request.user)
     
     def get(self , request , *args , **kwargs):
+        user_profile = UserProfile.objects.filter(user=request.user).first()
+        
+        if not user_profile or not user_profile.city or not user_profile.phone or not user_profile.address or not user_profile.nationality:
+            messages.error(request, "Please complete your profile information before purchasing.")
+            return redirect(reverse("zay:form") + "?message=Please complete your profile information first.")
+
         if not request.user.is_authenticated:
             messages.info(request , "You need to be registered and logged in to view your profile")
             return redirect('zay:login')
+        
         return super().get(request, *args, **kwargs)
 
 class UserProfileUpdateView(LoginRequiredMixin , UpdateView):
@@ -193,11 +209,6 @@ class UserProfileUpdateView(LoginRequiredMixin , UpdateView):
         return UserProfile.objects.get(user=self.request.user)
 
 
-    def get(self , request ,  *args , **kwargs):
-        if not self.request.user.is_authenticated:
-            messages.info(request , "You need to be registered and logged in to update your profile")
-            return redirect('zay:login')
-        return super().get(request,*args , **kwargs)
 def Logout(request):
     logout(request)
     return redirect('zay:login')

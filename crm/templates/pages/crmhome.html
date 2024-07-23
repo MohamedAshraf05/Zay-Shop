@@ -1,0 +1,24 @@
+{% extends 'pages/crmbase.html' %}
+
+
+{% block content %}
+<style>
+    h1{
+        font-size: 6.5rem;
+        font-family: 'Times New Roman', Times, serif;
+    }
+</style>
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+    <div class="text-center">
+        <h1 class="text text-success">
+            Zay Administration
+        </h1>
+        <a href="{% url 'crm:product' %}" class="btn btn-dark">Products</a>
+        <a href="{% url 'crm:order' %}" class="btn btn-dark">Orders</a>
+        <a href="{% url 'crm:contact' %}" class="btn btn-dark">Contact</a>
+        <a href="{% url 'crm:user' %}" class="btn btn-dark">User</a>
+        <a href="{% url 'crm:create' %}" class="btn btn-dark">Create new product</a>
+    </div>
+</div>
+
+{% endblock content %}

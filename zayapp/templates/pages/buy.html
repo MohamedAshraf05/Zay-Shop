@@ -2,12 +2,14 @@
 
 
 {% block content %}
-    {% for order in orders  %}
-        <h1> {{orders.user.username}} </h1>
-        <h2> {{orders.user.address}} </h2>
-        <h2> {{orders.user.phone}} </h2>
-        <h2> {{orders.user.email}} </h2>
-        <h2> {{orders.user.city}} </h2>
-        <h2> {{orders.product}} </h2>    
-    {% endfor %}
+    {% if orders %}
+    <h1> {{orders.user.username}} </h1>
+    <h1> {{orders.address}} </h1>
+    <h1> {{orders.phone}} </h1>
+    <h1> {{orders.city}} </h1>
+    <h1> {{orders.nationality}} </h1>
+    <h1> {{orders.product}} </h1>
+    {% else %}
+    <h1> No orders yet </h1>
+    {% endif %}
 {% endblock content %}

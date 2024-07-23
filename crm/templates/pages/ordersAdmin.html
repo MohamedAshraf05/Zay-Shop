@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Customer List</title>
+    <title>order List</title>
     <style>
         table {
             width: 100%;
@@ -26,10 +26,9 @@
     </style>
 </head>
 <body>
-    
-    <h1 class="text-center text-dark mb-2" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-style: italic;">Complaints List</h1>
+    <h1 class="text-center text-dark mb-2" style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-style: italic;">Orders List</h1>
     <div class="px-5">
-        <form action="{% url 'crm:product' %}" method="get" class="modal-content modal-body border-0 px-5 ">
+        <form action="{% url 'crm:order' %}" method="get" class="modal-content modal-body border-0 px-5 ">
             <div class="input-group mb-2">
                 <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search [name , price , id , category ,all(to get all of them)] ...">
                 <button type="submit" class="input-group-text bg-success text-light">
@@ -38,7 +37,7 @@
             </div>
         </form>
     </div>
-    {% if customers %}
+    {% if orders %}
     <table class="table table-striped table-hover">
         <thead class="text-light bg-dark">
             <tr>
@@ -46,21 +45,23 @@
                 <th>Username</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>subject</th>
+                <th>Product</th>
+                <th> address </th>
             </tr>
         </thead>
         <tbody>
-            {% for customer in customers %}
+            {% for order in orders %}
             <tr>
-                <td><a href="{% url 'crm:detail' customer.id %}" style="text-decoration: none; color: black;"> {{ customer.Custom_id }}</a></td>
-                <td>{{ customer.user.username }}</td>
-                <td> {{customer.email}} </td>
-                <td> {{customer.phone}} </td>
-                <td> {{customer.subject}} </td>
+                <td> {{order.id}} </td>
+                <td>{{ order.user }}</td>
+                <td> {{order.user.email}} </td>
+                <td> {{order.user.phone}} </td>
+                <td> {{order.product}} </td>
+                <td> {{order.user.address}} </td>
             </tr>
             {% endfor %}
             {% else %}
-            <h1> No complaints </h1>
+            <h1> No Orders </h1>
             {% endif %}
         </tbody>
     </table>

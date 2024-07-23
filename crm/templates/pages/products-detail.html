@@ -1,0 +1,96 @@
+{% extends 'pages/crmbase.html' %}
+
+{% load static %}
+
+{% block content %}
+<head>
+    <title> Zay | shop-single </title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+    .product-overlay ul {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+    .product-overlay:hover ul {
+        opacity: 1;
+    }
+    .product-wap {
+        max-height: fit-content;
+        max-width: fit-content; /* Adjust the width as needed */
+    }
+    .product-wap img {
+        width: max-content;
+        height: fit-content; /* Adjust the height as needed */
+        object-fit:fill; /* Ensures the image covers the area without distortion */
+        padding: 0;
+    }
+    #related{
+        background-color: white; !important
+    }.reduced-card {
+        width: 50%;
+        margin: auto; /* Centers the card horizontally */
+    }
+    
+    </style>    
+    
+    <!-- Open Content -->
+     <section class="bg-light">
+        <div class="container pb-5">
+            <div class="row">
+                <div class="col-lg-5 mt-5">
+                    <div class="card mb-3">
+                        <img class="card-img img-fluid" src="{{product.image.url}}" alt="Card image cap" id="product-detail">
+                    </div>
+                </div>
+                <!-- col end -->
+                <div class="col-lg-7 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="h2"> {{product.name}} </h1>
+                            <p class="h3 py-2"> ${{product.price}} </p>
+                            <p class="py-2">
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-warning"></i>
+                                <i class="fa fa-star text-secondary"></i>
+                                <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                            </p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Brand:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>Easy Wear</strong></p>
+                                </li>
+                            </ul>
+
+                            <h6>Description:</h6>
+                            <p> {{product.description}} </p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Avaliable Color :</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p class="text-muted"><strong>White / Black</strong></p>
+                                </li>
+                            </ul>
+
+                            <h6>Specification:</h6>
+                            <ul class="list-unstyled pb-3">
+                                <li>Lorem ipsum dolor sit</li>
+                                <li>Amet, consectetur</li>
+                                <li>Adipiscing elit,set</li>
+                                <li>Duis aute irure</li>
+                                <li>Ut enim ad minim</li>
+                                <li>Dolore magna aliqua</li>
+                                <li>Excepteur sint</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Close Content -->
+{% endblock content %}

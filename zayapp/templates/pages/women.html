@@ -16,7 +16,7 @@
                         <ul class="list-unstyled pl-3">
                             <li><a class="text-decoration-none text-dark" href="{% url 'zay:shop' %}">All Products</a></li>
                             <li><a class="text-decoration-none text-dark" href="zay:men">Men</a></li>
-                            <li><a class="text-decoration-none text-primary" href="{% url 'zay:women' %}">Women</a></li>
+                            <li><a class="text-decoration-none text-success" href="{% url 'zay:women' %}">Women</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
@@ -46,24 +46,25 @@
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'zay:shop' %}">All</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'zay:men' %}">Men's</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
+                                <a class="h3 text-success text-decoration-none" href="{% url 'zay:women' %}">Women's</a>
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-6 pb-4">
-                        <div class="d-flex">
-                            <select class="form-control">
-                                <option>Featured</option>
-                                <option>A to Z</option>
-                                <option>Item</option>
-                            </select>
-                        </div>
+                        <form action="{% url 'zay:shop' %}" method="get" class="modal-content modal-body border-0 p-0">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                                <button type="submit" class="input-group-text bg-success text-light">
+                                    <i class="fa fa-fw fa-search text-white"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="row">
@@ -72,12 +73,12 @@
                         <div class="card mb-4 p-0 product-wap">
                             <div class="card">
                                 <a href="{% url 'zay:single' woman.id %}">
-                                    
+                                
                                 <img class="card-img rounded-0 img-fluid" src="{{woman.image.url}}">
                             </a>
                         </div>
                         <div class="card-body mt-">
-                            <a href="{% url 'zay:single' woman.id %}" class="h3 text-decoration-none text-dark"> {{product.name}} </a>
+                            <a href="{% url 'zay:single' woman.id %}" class="h3 text-decoration-none text-dark"> {{woman.name}} </a>
                             <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                                 <li>M/L/X/XL</li>
                                 <li class="pt-2">

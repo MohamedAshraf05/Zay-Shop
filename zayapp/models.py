@@ -39,19 +39,6 @@ class Cart(models.Model):
         return sum(item.total_price for item in self.items.all())
 
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.CharField(max_length=20 , default='')
-    city = models.ForeignKey(City, on_delete=models.CASCADE , default='')
-    phone = models.CharField(max_length=15 , default='')
-    address = models.CharField(max_length=100 , default='')
-    image = models.FileField(upload_to='static/image', blank=True)
-    cart = models.ForeignKey(Cart , on_delete=models.SET_NULL , default='' , null=True)    
-    nationality = models.ForeignKey(nations , on_delete=models.SET_DEFAULT , default=51)
-
-    def __str__(self):
-        return self.user.username
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
 
@@ -106,6 +93,19 @@ class Contact(models.Model):
                 self.Custom_id = 1
         super().save(*args , **kwargs)
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.CharField(max_length=20 , default='')
+    city = models.ForeignKey(City, on_delete=models.CASCADE , default='')
+    phone = models.CharField(max_length=15 , default='')
+    address = models.CharField(max_length=100 , default='')
+    image = models.FileField(upload_to='static/image', blank=True)
+    cart = models.ForeignKey(Cart , on_delete=models.SET_NULL , default='' , null=True)    
+    nationality = models.ForeignKey(nations , on_delete=models.SET_DEFAULT , default=51)
+
+    def __str__(self):
+        return self.user.username
+
 class Order(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
@@ -115,7 +115,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Order {self.id} by {self.user}"
+        return f"Order {self.id} by {self.user.email}"
 
     @property
     def total_price(self):

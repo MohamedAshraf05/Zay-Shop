@@ -1,6 +1,7 @@
 Zay Shop requirements
 
-1.DONE Authentications (optional for viewing the products only , the user could view the products without be authenticated)
+1.DONE Authentications (optional for viewing the products only , the user could view the products without 
+being authenticated)
 2.DONE view for products (listView)
 3.DONE view for details for each product (Detail view) , Deleting views
 4.DONE Carts (advanced feature)
@@ -16,7 +17,22 @@ Zay Shop requirements
 14.DONE Contact Us [Make the user to add his feedback or his complaint] form including (phone number , email , subject , message)
 15.DONE CRM app for admin user to see the complaints of the clients in the shop 
 16.DONE Create an admin user beside the admin account that made the website to administrate Zay Administration
-17. Making a message for the user after adding products in the carts if the product added successfuly
-18. DONEUpdating the profile photo of the user
-19.DONE BUG : the user couldn't update his information [UserProfile]
-20. testing fork
+17.DONE Sending a message for the user after adding products in the carts if the product added successfuly
+18.DONE Updating the profile photo of the user
+19.DONE BUG:the user couldn't update his information [UserProfile]
+20.DONE Sending message if the unauthenticated user wants to add product to the cart that he should authenticate,
+and if the he wants to see his profile without completing the application
+21.DONE adding order list for the administrator in Zay Administration
+22.DONE make a model of the uesr who authenticated in our site for the Zay Administration only
+23.DONE Add the pagination feature 
+24. DONE search feature make the user reach the product he wants faster
+25. DONE Adding that if the searching result is 404 , displaying for the user swal fire
+that the product he searched for isn't existed in our databases
+26. Adding more categories for the site like a shoes,watches,...etc .
+27. Adding more optimized Related products in single-product.html
+28. Create a form for admin user only in Zay Administration 
+that admin could add the product he wants to add in the database
+29.DONE Adding Searching feature in Zay Administration to facilitate the searching for the admin user
+30.DONE Adding the detail views for the products in Zay Administration
+31.DONE Adding a home page for Zay Administration 
+32.DONE Adding more links to facilitate using the site for the admins 

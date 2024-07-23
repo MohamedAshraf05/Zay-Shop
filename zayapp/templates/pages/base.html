@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
 </head>
 <body>
+    {% if messages %}
+        {% for message in messages %}
+            {% comment %} <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li> {% endcomment %}
+        {% endfor %}
+{% endif %}
         <!-- Start Top Nav -->
         <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
             <div class="container text-light">
@@ -36,7 +41,7 @@
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href={% url 'zay:home' %}>
+            <a class="navbar-brand text-success logo h1 align-self-center" style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 2rem;"  href={% url 'zay:home' %}>
                 Zay
             </a>
 
@@ -48,31 +53,20 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-center mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'zay:home' %}">Home</a>
+                            <a class="nav-link text-decoration-none" href="{% url 'zay:home' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'zay:about' %}">About</a>
+                            <a class="nav-link text-decoration-none" href="{% url 'zay:about' %}">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'zay:shop' %}">Shop</a>
+                            <a class="nav-link text-decoration-none" href="{% url 'zay:shop' %}">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'zay:contact' %}">Contact</a>
+                            <a class="nav-link text-decoration-none" href="{% url 'zay:contact' %}">Contact</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 m-3 col-7 col-sm-auto pr-5">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
                     <a class="nav-icon position-relative text-decoration-none" href="{% url 'zay:cart' %}">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">
@@ -85,10 +79,10 @@
                     </a> 
                     <div class="row mx-3">
                         {% if user.is_authenticated %}
-                            <a href="{% url 'zay:logout' %}" class="btn btn-dark " style="width:fit-content;font-size: 10px;">Logout</a>
+                            <a href="{% url 'zay:logout' %}" class="btn btn-dark text-decoration-none" style="width:fit-content;font-size: 10px;">Logout</a>
                             {% else %}
-                            <a href="{% url 'zay:login' %}" class="btn btn-success mx-2" style="width:fit-content;font-size: 10px;">Login</a>
-                            <a href="{% url 'zay:register' %}" class="btn btn-dark" style="width:fit-content;font-size: 10px;">Sign up</a>
+                            <a href="{% url 'zay:login' %}" class="btn btn-success mx-2 text-decoration-none" style="width:fit-content;font-size: 10px;">Login</a>
+                            <a href="{% url 'zay:register' %}" class="btn btn-dark text-decoration-none" style="width:fit-content;font-size: 10px;">Sign up</a>
                         {% endif %}
                     </div>
                 </div>
@@ -96,6 +90,7 @@
 
         </div>
     </nav>
+    
     <!--Content--> 
     {% block content %}
     {% endblock content %}

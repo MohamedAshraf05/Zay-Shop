@@ -8,7 +8,7 @@
     padding: 40px;
     margin-top:320px;
     margin-bottom: -350px;
-    margin-right: -490px;
+    margin-right: -510px;
     transform: translate(-50%, -55%);
     background: transparent;
     box-sizing: border-box;
@@ -256,4 +256,25 @@ select{
     </div>
 </div>
 </center>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  function showMessage(message) {
+      Swal.fire({
+          title: 'Message',
+          text: message,
+          icon: 'info',
+          confirmButtonText: 'OK'
+      });
+  }
+
+  // Ensure the DOM is fully loaded before running the script
+  document.addEventListener("DOMContentLoaded", function() {
+    // Check if there's a message parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const message = urlParams.get('message');
+    if (message) {
+        showMessage(message);
+    } 
+  });
+</script>
 {% endblock content %}

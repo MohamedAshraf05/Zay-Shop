@@ -55,4 +55,25 @@
         </div>
     </div>
     {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function showMessage(message) {
+            Swal.fire({
+                title: 'Added',
+                text: message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        }
+        // Ensure the DOM is fully loaded before running the script
+        document.addEventListener("DOMContentLoaded", function() {
+          // Check if there's a message parameter in the URL
+          const urlParams = new URLSearchParams(window.location.search);
+          const message = urlParams.get('message');
+          if (message) {
+              showMessage(message);
+              console.log("Added")
+          } 
+        });
+    </script>
  {% endblock content %}

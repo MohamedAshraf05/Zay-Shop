@@ -76,50 +76,6 @@
                                     </div>
                                 </div>
                                 <!--/.First slide-->
-
-                                <!--Second slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_04.jpg" alt="Product Image 4">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_05.jpg" alt="Product Image 5">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_06.jpg" alt="Product Image 6">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/.Second slide-->
-
-                                <!--Third slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_07.jpg" alt="Product Image 7">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_08.jpg" alt="Product Image 8">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid" src="assets/img/product_single_09.jpg" alt="Product Image 9">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/.Third slide-->
                             </div>
                             <!--End Slides-->
                         </div>
@@ -179,7 +135,7 @@
                                 <li>Excepteur sint</li>
                             </ul>
 
-                            <form action="{% url 'zay:single' product.id%}" method="post">
+                            <form action="{% url 'zay:single' product.id%}" id="productForm" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="product-title" value="{{ product.name }}">
                                 <div class="row">
@@ -208,10 +164,10 @@
                                 </div>
                                 <div class="row pb-3">
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" id="buy-button" value="buy">Buy</button>
                                     </div>
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" id="addtocart" value="addtocart">Add To Cart</button>
                                     </div>
                                 </div>
                             </form>  
@@ -349,16 +305,18 @@
                 <!--/Third related product-->
     </section>
     <!-- Close Content -->
+    
     <script>
+        
         let buyButton = document.getElementById('buy-button')
-        let addToCartButton = document.getElementById('add-to-cart-button')
+        let addToCartButton = document.getElementById('addtocart')
         let productForm = document.getElementById('product-form')
 {% comment %} 
-        buyButton.addEventListener('click' , () => {
+        buyButton.addEventListener('click' , function(){
             productForm.action = "{% url 'zay:order' product.id %}"
         });
 
-        addToCartButton.addEventListener("click" , () => {
+        addToCartButton.addEventListener("click" , function() {
             productForm.action = "{% url 'zay:single' product.id %}"
         });  {% endcomment %}
 
@@ -414,55 +372,9 @@
                     let selectedSize = button.getAttribute('data-size');  
                     updateSize(selectedSize);  
                 });  
-            });  
-    
-   /*         // Handle form submission via AJAX  
-            const addToCartButton = document.getElementById('add-to-cart-button');  
-    
-            addToCartButton.addEventListener('click', function(event) {  
-                event.preventDefault();  
-                const form = document.querySelector('form[action="{% url 'zay:single' product.id %}"]');  
-                if (!form) {  
-                    console.error('Form not found!');  
-                    return;  
-                }  
-                const formData = new FormData(form);  
-    
-                fetch(form.action, {  
-                    method: 'POST',  
-                    headers: {  
-                        'X-CSRFToken': formData.get('csrfmiddlewaretoken'),  
-                    },  
-                    body: formData,  
-                })  
-                .then(response => response.json())  
-                .then(data => {  
-                    if (data.success) {  
-                        Swal.fire({  
-                            icon: 'success',  
-                            title: 'Added to cart successfully!',  
-                            showConfirmButton: false,  
-                            timer: 3000  
-                        });  
-                    } else {  
-                        Swal.fire({  
-                            icon: 'error',  
-                            title: 'An error occurred!',  
-                            text: data.message,  
-                            showConfirmButton: true,  
-                        });  
-                    }  
-                })  
-                .catch(error => {  
-                    Swal.fire({  
-                        icon: 'error',  
-                        title: 'An error occurred!',  
-                        text: 'Please try again later.',  
-                        showConfirmButton: true,  
-                    });  
-                });  
-            });*/  
+            });    
         });  
+
     </script>
     
     

@@ -23,6 +23,17 @@
     object-fit:fill; /* Ensures the image covers the area without distortion */
     padding: 0;
 }
+.pagination .page-item .page-link{
+    color: #000;
+}
+
+
+.pagination .page-item.active .page-link {
+    background-color: #28a745;  /* Bootstrap's 'success' color */
+    border-color: #28a745;  /* Bootstrap's 'success' color */
+    color: white;
+}
+
 </style>    
 
     <!-- Start Content -->
@@ -68,38 +79,41 @@
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'zay:shop' %}">All</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'zay:men' %}">Men's</a>
                             </li>
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
+                                <a class="h3 text-dark text-decoration-none" href="{% url 'zay:women' %}">Women's</a>
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-6 pb-4">
                         <div class="d-flex">
-                            <select class="form-control">
-                                <option>Featured</option>
-                                <option>A to Z</option>
-                                <option>Item</option>
-                            </select>
+                            <form action="{% url 'zay:shop' %}" method="get" class="modal-content modal-body border-0 p-0">
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
+                                    <button type="submit" class="input-group-text bg-success text-light">
+                                        <i class="fa fa-fw fa-search text-white"></i>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="row">
+                    {% if products %}
                     {% for product in products %}
                     <div class="col-md-4">
                         <div class="card mb-4 p-0 product-wap">
                             <div class="card">
-                            <a href="{% url 'zay:single' product.id %}">
-
-                                <img class="card-img rounded-0 img-fluid" src="{{product.image.url}}">
+                                <a href="{% url 'zay:single' product.id %}">               
+                                    <img class="card-img rounded-0 img-fluid" src="{{product.image.url}}">
                             </a>
-                            </div>
-                            <div class="card-body mt-">
-                                <a href="{% url 'zay:single' product.id %}" class="h3 text-decoration-none text-dark"> {{product.name}} </a>
+                        </div>
+                        <div class="card-body">
+                            <a href="{% url 'zay:single' product.id %}" class="h3 text-decoration-none text-dark"> {{product.name}} </a>
                                 <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
                                     <li>M/L/X/XL</li>
                                     <li class="pt-2">
@@ -124,11 +138,52 @@
                         </div>
                     </div>
                     {% endfor %}
-        
-        </div>
-    </div>
-    <!-- End Content -->
-    <section class="bg-light py-5">
+                    
+                    {% else %}
+
+                    {% endif %}        
+                </div>
+            </div>
+            {% if products.has_other_pages %}
+                <nav aria-label="Page navigation" class=" d-flex justify-content-center text-center">
+                    <ul class="pagination">
+                        {% if products.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link" aria-hidden="true">&laquo;</span>
+                            </li>
+                        {% endif %}
+                        
+                        {% for page_num in products.paginator.page_range %}
+                            {% if products.number == page_num %}
+                                <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if products.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link" aria-hidden="true">&raquo;</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+
+            <!-- End Content -->
+        <section class="bg-light py-5">
         <div class="container my-4">
             <div class="row text-center py-3">
                 <div class="col-lg-6 m-auto">
@@ -175,6 +230,29 @@
             </div>
         </div>
     </section>
+    
     <!--End Brands-->
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.querySelector('form[action="{% url 'zay:shop' %}"]').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const form = event.target;
+        fetch(form.action + '?' + new URLSearchParams(new FormData(form)), {
+            headers: {
+                'x-requested-with': 'XMLHttpRequest'
+            }
+        }).then(response => {
+            if (response.status === 404) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Product not found',
+                });
+            } else {
+                window.location.href = form.action + '?' + new URLSearchParams(new FormData(form));
+            }
+        });
+    });
+    </script>
 {% endblock content %}
